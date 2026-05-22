@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Whale Shark Vacuum / Charlie Mercer</title>
+<title>FUHE / Charlie Mercer</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
  :root {
@@ -18,18 +18,11 @@
   --cream: #f5f3ef;
   --white: #fafaf8;
  }
-
  * { margin: 0; padding: 0; box-sizing: border-box; }
  html { scroll-behavior: smooth; }
  body { background: var(--white); color: var(--ink); font-family: 'DM Mono', monospace; font-weight: 300; overflow-x: hidden; }
 
- nav {
- position: fixed; top: 0; left: 0; right: 0; z-index: 100;
- display: flex; justify-content: space-between; align-items: center;
- padding: 1.5rem 2.5rem;
- background: rgba(250,250,248,0.88); backdrop-filter: blur(14px);
- border-bottom: 1px solid var(--primary-xlight);
- }
+ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2.5rem; background: rgba(250,250,248,0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--primary-xlight); }
  .nav-logo { font-family: 'Instrument Serif', serif; font-size: 1.05rem; color: var(--ink); text-decoration: none; }
  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
  .nav-links a { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; position: relative; }
@@ -38,11 +31,7 @@
  .nav-links a:hover::after { width: 100%; }
 
  .project-hero { padding-top: 5rem; }
- .hero-header {
- padding: 3.5rem 2.5rem 2rem;
- border-bottom: 1px solid var(--primary-xlight);
- display: flex; justify-content: space-between; align-items: flex-end; gap: 3rem;
- }
+ .hero-header { padding: 3.5rem 2.5rem 2rem; border-bottom: 1px solid var(--primary-xlight); display: flex; justify-content: space-between; align-items: flex-end; gap: 3rem; }
  .hero-header-left { flex: 1; }
  .hero-header-right { flex-shrink: 0; }
  .back-link { display: block; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-light); text-decoration: none; margin-bottom: 1.5rem; transition: color 0.2s; }
@@ -52,36 +41,38 @@
  .project-title em { font-style: italic; color: var(--primary); }
  .project-tagline { font-size: 0.8rem; line-height: 1.85; color: var(--ink-mid); max-width: 340px; opacity: 0; animation: fadeUp 0.9s 0.32s forwards; }
 
- .project-meta-row {
- display: grid; grid-template-columns: repeat(4, 1fr);
- gap: 1px; background: var(--primary-xlight);
- border: 1px solid var(--primary-xlight); overflow: hidden;
- opacity: 0; animation: fadeUp 0.9s 0.4s forwards;
- margin: 2rem 2.5rem 0;
- }
+ .project-meta-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--primary-xlight); border: 1px solid var(--primary-xlight); overflow: hidden; opacity: 0; animation: fadeUp 0.9s 0.4s forwards; margin: 2rem 2.5rem 0; }
  .meta-item { background: var(--white); padding: 1rem 1.25rem; }
  .meta-label { font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 0.3rem; }
  .meta-value { font-size: 0.75rem; color: var(--ink); line-height: 1.4; }
 
- .hero-image { width: 100%; aspect-ratio: 21/9; background: #c2cdd6; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 2rem; }
+ .hero-image { width: 100%; aspect-ratio: 21/9; background: #c8d4c0; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 2rem; }
  .hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
  .img-placeholder { display: flex; flex-direction: column; align-items: center; gap: 1rem; opacity: 0.4; }
  .img-placeholder span { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--primary-deep); }
 
  .project-content { max-width: 780px; margin: 0 auto; padding: 6rem 2.5rem; }
-
  .content-block { margin-bottom: 5rem; opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
  .content-block.visible { opacity: 1; transform: none; }
  .block-label { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--primary-dark); margin-bottom: 1.25rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--primary-xlight); }
  .block-body { font-size: 0.8rem; line-height: 2; color: var(--ink-mid); }
  .block-body p + p { margin-top: 1.2rem; }
 
- .img-grid { display: grid; gap: 1rem; margin: 3rem 0; opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
+ /* Jacket entry block */
+ .jacket-block { margin-bottom: 4rem; padding-bottom: 4rem; border-bottom: 1px solid var(--primary-xlight); opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
+ .jacket-block.visible { opacity: 1; transform: none; }
+ .jacket-block:last-child { border-bottom: none; }
+ .jacket-num { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 0.5rem; }
+ .jacket-name { font-family: 'Instrument Serif', serif; font-size: 2rem; color: var(--ink); margin-bottom: 1rem; }
+ .jacket-name em { font-style: italic; color: var(--primary); }
+ .jacket-desc { font-size: 0.8rem; line-height: 2; color: var(--ink-mid); margin-bottom: 1.5rem; }
+
+ .img-grid { display: grid; gap: 1rem; margin: 2rem 0; opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
  .img-grid.visible { opacity: 1; transform: none; }
  .img-grid.cols-2 { grid-template-columns: 1fr 1fr; }
  .img-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-
- .img-slot { aspect-ratio: 4/3; background: #c2cdd6; border-radius: 4px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+ .img-slot { aspect-ratio: 4/3; background: #c8d4c0; border-radius: 4px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+ .img-slot.portrait { aspect-ratio: 3/4; }
  .img-slot.wide { aspect-ratio: 16/9; }
  .img-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
  .img-slot .ph-inner { opacity: 0.3; text-align: center; }
@@ -120,28 +111,21 @@
  <div class="hero-header">
  <div class="hero-header-left">
  <a href="../index.html" class="back-link">← All Projects</a>
- <p class="project-index">03 / Product Design</p>
- <h1 class="project-title">Whale Shark<br><em>Vacuum</em></h1>
+ <p class="project-index">02 / Apparel</p>
+ <h1 class="project-title">FUHE<br><em>Future Heritage</em></h1>
  </div>
  <div class="hero-header-right">
- <p class="project-tagline">A vacuum concept that borrows its form language from the whale shark. A study in biomimicry and CMF.</p>
+ <p class="project-tagline">An apparel collection combining classic silhouettes and construction methods with modern materials and hardware. Three jackets that blend the familiar and the unknown.</p>
  </div>
  </div>
  <div class="project-meta-row">
- <div class="meta-item"><div class="meta-label">Year</div><div class="meta-value">Winter 2024</div></div>
- <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-value">2 Weeks</div></div>
- <div class="meta-item"><div class="meta-label">Context</div><div class="meta-value">CAD Class</div></div>
- <div class="meta-item"><div class="meta-label">Focus</div><div class="meta-value">Biomimicry, CMF</div></div>
+ <div class="meta-item"><div class="meta-label">Year</div><div class="meta-value">Fall 2025</div></div>
+ <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-value">10 Weeks</div></div>
+ <div class="meta-item"><div class="meta-label">Methods</div><div class="meta-value">Pattern Making, Sewing</div></div>
+ <div class="meta-item"><div class="meta-label">Context</div><div class="meta-value">Apparel Studio</div></div>
  </div>
  <div class="hero-image">
- <!-- Replace with: <img src="../images/whale-shark-hero.jpg" alt="Whale Shark Vacuum"> -->
- <div class="img-placeholder">
- <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
- <ellipse cx="32" cy="32" rx="20" ry="14" stroke="#2e5a6a" stroke-width="1.5"/>
- <path d="M12 32Q32 20 52 32" stroke="#2e5a6a" stroke-width="1.5"/>
- </svg>
- <span>Hero image</span>
- </div>
+ <img src="../images/fuhe-hero.jpg" alt="FUHE collection">
  </div>
 </section>
 
@@ -150,60 +134,70 @@
  <div class="content-block">
  <p class="block-label">Overview</p>
  <div class="block-body">
- <p>This project came out of a CAD class where I was learning Rhino 8 for the first time. The brief was to design and render a vacuum cleaner. I was interested in using the project as an opportunity to explore biomimicry, so I started looking at the whale shark as a reference specifically the way its wide filter-feeding mouth passively collects material as it moves forward, which felt like a natural analogy for a vacuum.</p>
- <p>The goal was to find the underlying logic of the animal and let that drive the form rather than just copying the surface. The result is a vacuum that reads as biomimetic without being literal about it.</p>
+ <p>FUHE stands for Future Heritage. The idea behind the collection was to take construction methods and silhouettes from older workwear traditions and rebuild them with modern materials and details. I wanted the jackets to feel like they could have existed in the past but clearly do not belong there.</p>
+ <p>I designed and made all three jackets from scratch, including the patterns. Each one has its own reference point and its own personality, but they work as a group.</p>
+ </div>
+ </div>
+
+ <!-- JACKET 1 -->
+ <div class="jacket-block">
+ <p class="jacket-num">Jacket 0001</p>
+ <h2 class="jacket-name"><em>Shoal</em></h2>
+ <p class="jacket-desc">Made from 10oz grey ripstop fabric. Inspired by mechanic jackets from the 1970s and 80s. The Shoal jacket has large swooping pockets and triangle cutout details on the cuffs and right pocket. A woven backtab sits at the center back hem.</p>
+ <div class="img-grid cols-2">
+ <div class="img-slot portrait">
+ <img src="../images/shoal-front.jpg" alt="Shoal jacket front">
+ </div>
+ <div class="img-slot portrait">
+ <img src="../images/shoal-detail.jpg" alt="Shoal jacket details">
+ </div>
+ </div>
+ </div>
+
+ <!-- JACKET 2 -->
+ <div class="jacket-block">
+ <p class="jacket-num">Jacket 0002</p>
+ <h2 class="jacket-name"><em>Knox</em></h2>
+ <p class="jacket-desc">Made from 9oz green ripstop fabric. Inspired by 1960s military fatigues. The Knox jacket has a wide collar, a D-ring buckle on the left side, and a stenciled "49" graphic on the back. A woven houndstooth backtab finishes the hem.</p>
+ <div class="img-grid cols-2">
+ <div class="img-slot portrait">
+ <img src="../images/knox-front.jpg" alt="Knox jacket front">
+ </div>
+ <div class="img-slot portrait">
+ <img src="../images/knox-detail.jpg" alt="Knox jacket details">
+ </div>
+ </div>
+ </div>
+
+ <!-- JACKET 3 -->
+ <div class="jacket-block">
+ <p class="jacket-num">Jacket 0003</p>
+ <h2 class="jacket-name"><em>Trestle</em></h2>
+ <p class="jacket-desc">Made from 12oz cotton denim in a hickory stripe. Inspired by type 1 trucker jackets. The Trestle jacket has a front patch pocket on the right with a magnetic closure, a wide open back pocket on the left, and a denim backtab. The magnetic pocket was the detail I was most interested in exploring from a making standpoint.</p>
+ <div class="img-grid cols-2">
+ <div class="img-slot portrait">
+ <img src="../images/trestle-front.jpg" alt="Trestle jacket front">
+ </div>
+ <div class="img-slot portrait">
+ <img src="../images/trestle-detail.jpg" alt="Trestle magnetic pocket">
+ </div>
+ </div>
+ </div>
+
+ <div class="content-block">
+ <p class="block-label">Process</p>
+ <div class="block-body">
+ <p>I did all the pattern making myself, which is where most of the design decisions happen for me. Getting the silhouette right on paper before cutting into fabric saves a lot of material. I sew on industrial machines, which makes a real difference in seam quality and how fast you can work.</p>
+ <p>The magnetic pocket on the Trestle jacket was the most technically interesting part of the collection. Getting the magnets to sit flush inside the denim without creating a visible bump took a few tries. The attraction strength also had to be calibrated so the pocket felt satisfying to close but was not difficult to open one-handed.</p>
  </div>
  </div>
 
  <div class="img-grid cols-2">
  <div class="img-slot">
- <!-- Replace with: <img src="../images/whale-shark-reference.jpg" alt="Reference imagery"> -->
- <div class="ph-inner"><svg width="36" height="36" viewBox="0 0 64 64" fill="none"><ellipse cx="32" cy="32" rx="20" ry="14" stroke="#2e5a6a" stroke-width="1.5"/><path d="M12 32Q32 20 52 32" stroke="#2e5a6a" stroke-width="1.5"/></svg><span>Reference</span></div>
+ <img src="../images/fuhe-process-1.jpg" alt="Pattern making">
  </div>
  <div class="img-slot">
- <!-- Replace with: <img src="../images/whale-shark-sketches.jpg" alt="Sketches"> -->
- <div class="ph-inner"><svg width="36" height="36" viewBox="0 0 64 64" fill="none"><path d="M12 52L20 32l8 8 8-12 16 24" stroke="#2e5a6a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Sketches</span></div>
- </div>
- </div>
-
- <div class="content-block">
- <p class="block-label">Form and CMF</p>
- <div class="block-body">
- <p>The form is low and wide with a broad intake at the front that references the whale shark's mouth. The body tapers toward the back in a way that suggests forward motion even when the object is sitting still. The proportions came from studying the fish from above, which gave the clearest read of that tapered silhouette.</p>
- <p>For CMF I was interested in the spotted pattern of the whale shark skin. Rather than printing a pattern onto the surface I explored how the texture could be built into the material itself through a combination of matte and gloss finishes in the same color family. This kept the reference subtle and made the object feel considered rather than themed.</p>
- </div>
- </div>
-
- <div class="img-grid cols-3">
- <div class="img-slot">
- <!-- Replace with: <img src="../images/whale-shark-front.jpg" alt="Front view"> -->
- <div class="ph-inner"><svg width="32" height="32" viewBox="0 0 64 64" fill="none"><ellipse cx="32" cy="36" rx="20" ry="14" stroke="#2e5a6a" stroke-width="1.5"/></svg><span>Front</span></div>
- </div>
- <div class="img-slot">
- <!-- Replace with: <img src="../images/whale-shark-side.jpg" alt="Side view"> -->
- <div class="ph-inner"><svg width="32" height="32" viewBox="0 0 64 64" fill="none"><path d="M12 36 Q32 20 52 36 L44 44 L20 44 Z" stroke="#2e5a6a" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Side</span></div>
- </div>
- <div class="img-slot">
- <!-- Replace with: <img src="../images/whale-shark-top.jpg" alt="Top view"> -->
- <div class="ph-inner"><svg width="32" height="32" viewBox="0 0 64 64" fill="none"><ellipse cx="32" cy="32" rx="20" ry="12" stroke="#2e5a6a" stroke-width="1.5"/><path d="M20 32 Q32 26 44 32" stroke="#2e5a6a" stroke-width="1.5"/></svg><span>Top</span></div>
- </div>
- </div>
-
- <div class="content-block">
- <p class="block-label">Rendering</p>
- <div class="block-body">
- <p>I modeled this in Rhino and rendered in KeyShot. The rendering process was important for exploring CMF options since the material decisions are hard to evaluate in a CAD viewport. Being able to switch between finishes and lighting setups quickly in KeyShot is where a lot of the final material decisions got made.</p>
- </div>
- </div>
-
- <div class="img-grid cols-2">
- <div class="img-slot wide">
- <!-- Replace with: <img src="../images/whale-shark-render-1.jpg" alt="Final render"> -->
- <div class="ph-inner"><svg width="36" height="36" viewBox="0 0 64 64" fill="none"><ellipse cx="32" cy="32" rx="20" ry="14" stroke="#2e5a6a" stroke-width="1.5"/></svg><span>Final render</span></div>
- </div>
- <div class="img-slot wide">
- <!-- Replace with: <img src="../images/whale-shark-render-2.jpg" alt="CMF detail render"> -->
- <div class="ph-inner"><svg width="36" height="36" viewBox="0 0 64 64" fill="none"><ellipse cx="32" cy="32" rx="20" ry="14" stroke="#2e5a6a" stroke-width="1.5"/><circle cx="32" cy="32" r="5" fill="#2e5a6a" opacity="0.3"/></svg><span>CMF detail</span></div>
+ <img src="../images/fuhe-process-2.jpg" alt="Sewing">
  </div>
  </div>
 
@@ -212,7 +206,7 @@
 <a href="fabric-gauge.html" class="next-project">
  <div>
  <div class="next-label">Next Project</div>
- <div class="next-title">Fabric Gauge</div>
+ <div class="next-title">Fabric Gauge for Hidden</div>
  </div>
  <span class="next-arrow">→</span>
 </a>
@@ -226,7 +220,7 @@
  const obs = new IntersectionObserver(entries => {
  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
  }, { threshold: 0.08 });
- document.querySelectorAll('.content-block, .img-grid, .reveal').forEach(el => obs.observe(el));
+ document.querySelectorAll('.content-block, .jacket-block, .img-grid, .reveal').forEach(el => obs.observe(el));
  // PIXEL TRAIL
  const trailCanvas = document.getElementById("trail-canvas");
  const tCtx = trailCanvas.getContext("2d");
