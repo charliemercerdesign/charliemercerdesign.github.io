@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume / Charlie Mercer</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+ :root {
+  --primary: #789fb0;
+  --primary-light: #b8cdd6;
+  --primary-xlight: #e2eaed;
+  --primary-dark: #4d7a8e;
+  --primary-deep: #2e5a6a;
+  --ink: #1a1f24;
+  --ink-mid: #4a5460;
+  --ink-light: #8a97a4;
+  --cream: #f5f3ef;
+  --white: #fafaf8;
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ html { scroll-behavior: smooth; }
+ body {
+ background: var(--white);
+ color: var(--ink);
+ font-family: 'DM Mono', monospace;
+ font-weight: 300;
+ overflow-x: hidden;
+ }
+
+ /* NAV identical to index */
+ nav {
+ position: fixed;
+ top: 0; left: 0; right: 0;
+ z-index: 100;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 1.5rem 2.5rem;
+ background: rgba(250,250,248,0.88);
+ backdrop-filter: blur(14px);
+ border-bottom: 1px solid var(--primary-xlight);
+ }
+ .nav-logo {
+ font-family: 'Instrument Serif', serif;
+ font-size: 1.05rem;
+ color: var(--ink);
+ text-decoration: none;
+ }
+ .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+ .nav-links a {
+ font-size: 0.68rem;
+ letter-spacing: 0.14em;
+ text-transform: uppercase;
+ color: var(--ink-mid);
+ text-decoration: none;
+ transition: color 0.2s;
+ position: relative;
+ }
+ .nav-links a::after {
+ content: '';
+ position: absolute;
+ bottom: -2px; left: 0;
+ width: 0; height: 1px;
+ background: var(--primary);
+ transition: width 0.25s;
+ }
+ .nav-links a:hover { color: var(--ink); }
+ .nav-links a:hover::after { width: 100%; }
+ .nav-links a.active { color: var(--ink); }
+ .nav-links a.active::after { width: 100%; }
+
+ /* PAGE HEADER */
+ .page-header {
+ padding: 9rem 2.5rem 4rem;
+ border-bottom: 1px solid var(--primary-xlight);
+ display: flex;
+ justify-content: space-between;
+ align-items: flex-end;
+ gap: 2rem;
+ }
+ .page-header-left {}
+ .page-eyebrow {
+ font-size: 0.67rem;
+ letter-spacing: 0.2em;
+ text-transform: uppercase;
+ color: var(--primary-dark);
+ margin-bottom: 1rem;
+ opacity: 0;
+ animation: fadeUp 0.8s 0.1s forwards;
+ }
+ .page-title {
+ font-family: 'Instrument Serif', serif;
+ font-size: clamp(3rem, 7vw, 6rem);
+ line-height: 0.92;
+ color: var(--ink);
+ opacity: 0;
+ animation: fadeUp 0.9s 0.25s forwards;
+ }
+ .page-title em { font-style: italic; color: var(--primary); }
+ .download-btn {
+ font-size: 0.68rem;
+ letter-spacing: 0.12em;
+ text-transform: uppercase;
+ color: var(--ink);
+ text-decoration: none;
+ padding: 0.7rem 1.5rem;
+ border: 1px solid var(--primary);
+ border-radius: 999px;
+ transition: all 0.25s;
+ white-space: nowrap;
+ opacity: 0;
+ animation: fadeUp 0.9s 0.35s forwards;
+ }
+ .download-btn:hover { background: var(--primary); color: var(--white); }
+
+ /* RESUME BODY */
+ .resume-wrap {
+ max-width: 860px;
+ margin: 0 auto;
+ padding: 5rem 2.5rem 8rem;
+ }
+
+ /* CONTACT ROW */
+ .contact-row {
+ display: flex;
+ gap: 2rem;
+ flex-wrap: wrap;
+ margin-bottom: 4rem;
+ padding-bottom: 2rem;
+ border-bottom: 1px solid var(--primary-xlight);
+ }
+ .contact-item {
+ font-size: 0.72rem;
+ color: var(--ink-mid);
+ line-height: 1.6;
+ }
+ .contact-item a { color: var(--primary-dark); text-decoration: none; }
+ .contact-item a:hover { color: var(--primary); }
+ .contact-label {
+ font-size: 0.6rem;
+ letter-spacing: 0.15em;
+ text-transform: uppercase;
+ color: var(--ink-light);
+ margin-bottom: 0.2rem;
+ }
+
+ /* SECTIONS */
+ .resume-section {
+ margin-bottom: 3.5rem;
+ opacity: 0;
+ transform: translateY(16px);
+ transition: opacity 0.7s ease, transform 0.7s ease;
+ }
+ .resume-section.visible { opacity: 1; transform: none; }
+
+ .section-label {
+ font-size: 0.62rem;
+ letter-spacing: 0.2em;
+ text-transform: uppercase;
+ color: var(--primary-dark);
+ margin-bottom: 1.5rem;
+ padding-bottom: 0.6rem;
+ border-bottom: 1px solid var(--primary-xlight);
+ }
+
+ /* EDUCATION */
+ .edu-item { margin-bottom: 0.5rem; }
+ .edu-degree {
+ font-family: 'Instrument Serif', serif;
+ font-size: 1.3rem;
+ color: var(--ink);
+ margin-bottom: 0.2rem;
+ }
+ .edu-school {
+ font-size: 0.75rem;
+ color: var(--ink-mid);
+ margin-bottom: 0.5rem;
+ }
+ .edu-details { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+ .edu-detail {
+ font-size: 0.68rem;
+ color: var(--ink-light);
+ letter-spacing: 0.05em;
+ }
+ .edu-detail strong { color: var(--primary-dark); font-weight: 400; }
+
+ /* EXPERIENCE */
+ .exp-item {
+ margin-bottom: 2.5rem;
+ padding-bottom: 2.5rem;
+ border-bottom: 1px solid var(--primary-xlight);
+ }
+ .exp-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+ .exp-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: baseline;
+ margin-bottom: 0.3rem;
+ gap: 1rem;
+ flex-wrap: wrap;
+ }
+ .exp-role {
+ font-family: 'Instrument Serif', serif;
+ font-size: 1.3rem;
+ color: var(--ink);
+ line-height: 1.2;
+ }
+ .exp-date {
+ font-size: 0.62rem;
+ letter-spacing: 0.1em;
+ color: var(--ink-light);
+ text-transform: uppercase;
+ white-space: nowrap;
+ }
+ .exp-company {
+ font-size: 0.72rem;
+ color: var(--primary-dark);
+ margin-bottom: 0.9rem;
+ letter-spacing: 0.04em;
+ }
+ .exp-desc {
+ font-size: 0.76rem;
+ line-height: 1.85;
+ color: var(--ink-mid);
+ }
+
+ /* SKILLS */
+ .skills-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+ gap: 0.6rem;
+ }
+ .skill-pill {
+ font-size: 0.68rem;
+ letter-spacing: 0.08em;
+ color: var(--primary-deep);
+ padding: 0.5rem 1rem;
+ background: var(--primary-xlight);
+ border-radius: 999px;
+ text-align: center;
+ border: 1px solid var(--primary-light);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ }
+
+ /* FOOTER */
+ footer {
+ padding: 1.75rem 2.5rem;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ border-top: 1px solid var(--primary-xlight);
+ }
+ .footer-name { font-family: 'Instrument Serif', serif; font-size: 0.9rem; color: var(--ink); }
+ .footer-copy { font-size: 0.62rem; letter-spacing: 0.1em; color: var(--ink-light); text-transform: uppercase; }
+
+ @keyframes fadeUp {
+ from { opacity: 0; transform: translateY(18px); }
+ to { opacity: 1; transform: translateY(0); }
+ }
+</style>
+</head>
+<body>
+<canvas id="trail-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:9990;image-rendering:pixelated;"></canvas>
+
+<nav>
+ <a href="index.html" class="nav-logo">Charlie Mercer</a>
+ <ul class="nav-links">
+ <li><a href="index.html#projects">Projects</a></li>
+ <li><a href="index.html#about">About</a></li>
+ <li><a href="index.html#contact">Contact</a></li>
+ <li><a href="resume.html" class="active">Resume</a></li>
+ </ul>
+</nav>
+
+<div class="page-header">
+ <div class="page-header-left">
+ <p class="page-eyebrow">Charlie Mercer Designer</p>
+ <h1 class="page-title">Resume<br><em>&amp; Experience</em></h1>
+ </div>
+ <a href="CharlieWallResume2026.pdf" download class="download-btn">↓ Download PDF</a>
+</div>
+
+<div class="resume-wrap">
+
+ <!-- CONTACT -->
+ <div class="contact-row resume-section">
+ <div class="contact-item">
+ <div class="contact-label">Location</div>
+ New York, NY
+ </div>
+ <div class="contact-item">
+ <div class="contact-label">Phone</div>
+ 917-499-5310
+ </div>
+ <div class="contact-item">
+ <div class="contact-label">Email</div>
+ <a href="mailto:chaw@uoregon.edu">chaw@uoregon.edu</a>
+ </div>
+ <div class="contact-item">
+ <div class="contact-label">Portfolio</div>
+ <a href="index.html">charliemercerdesign.github.io</a>
+ </div>
+ </div>
+
+ <!-- EDUCATION -->
+ <div class="resume-section">
+ <p class="section-label">Education</p>
+ <div class="edu-item">
+ <div class="edu-degree">BFA in Product Design</div>
+ <div class="edu-school">University of Oregon Expected 2027</div>
+ <div class="edu-details">
+ <span class="edu-detail"><strong>Dean's List</strong> 2023–present</span>
+ <span class="edu-detail"><strong>Member</strong> IDSA</span>
+ </div>
+ </div>
+ </div>
+
+ <!-- EXPERIENCE -->
+ <div class="resume-section">
+ <p class="section-label">Experience</p>
+
+ <div class="exp-item">
+ <div class="exp-header">
+ <div class="exp-role">Industrial Design Intern</div>
+ <div class="exp-date">Summer 2025</div>
+ </div>
+ <div class="exp-company">Core Home New York, NY</div>
+ <p class="exp-desc">Gained hands-on experience across all stages of product development, with one design ultimately selected for production. Work included trend and market research, 3D printed prototyping, contributing to product development meetings, presenting research, and supporting the broader design team in day-to-day work.</p>
+ </div>
+
+ <div class="exp-item">
+ <div class="exp-header">
+ <div class="exp-role">Output Room Technician</div>
+ <div class="exp-date">2025–Present</div>
+ </div>
+ <div class="exp-company">University of Oregon School of Design</div>
+ <p class="exp-desc">Managed the production of large-format prints, ensuring accurate and high-quality output. Operated and troubleshot printers, organized and optimized file management and print queues, and assisted customers with their printing needs.</p>
+ </div>
+
+ <div class="exp-item">
+ <div class="exp-header">
+ <div class="exp-role">Sales Intern</div>
+ <div class="exp-date">Summer 2024</div>
+ </div>
+ <div class="exp-company">C'H'C'M New York, NY</div>
+ <p class="exp-desc">Provided personalized customer service, assisting customers with product knowledge, styling, and sizing. Managed in-store sales, packed and shipped online orders, and maintained the store's visual presentation.</p>
+ </div>
+
+ </div>
+
+ <!-- SKILLS -->
+ <div class="resume-section">
+ <p class="section-label">Skills &amp; Software</p>
+ <div class="skills-grid">
+ <span class="skill-pill">Rhino 8</span>
+ <span class="skill-pill">SolidWorks</span>
+ <span class="skill-pill">KeyShot</span>
+ <span class="skill-pill">V-Ray</span>
+ <span class="skill-pill">Adobe Creative Suite</span>
+ <span class="skill-pill">Figma</span>
+ <span class="skill-pill">3D Printing</span>
+ <span class="skill-pill">Laser Cutting</span>
+ <span class="skill-pill">Industrial Sewing</span>
+ <span class="skill-pill">Garment Construction</span>
+ <span class="skill-pill">CNC Machining</span>
+ <span class="skill-pill">Prototyping</span>
+ </div>
+ </div>
+
+</div>
+
+<footer>
+ <span class="footer-name">Charlie Mercer</span>
+ <span class="footer-copy">© 2025 All rights reserved</span>
+</footer>
+
+<script>
+ const obs = new IntersectionObserver(entries => {
+ entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+ }, { threshold: 0.08 });
+ document.querySelectorAll('.resume-section').forEach(r => obs.observe(r));
+ // PIXEL TRAIL
+ const trailCanvas = document.getElementById("trail-canvas");
+ const tCtx = trailCanvas.getContext("2d");
+ const PIXEL = 5;
+ let particles = [];
+ function resizeTrail() { trailCanvas.width = window.innerWidth; trailCanvas.height = window.innerHeight; }
+ resizeTrail();
+ window.addEventListener("resize", resizeTrail);
+ document.addEventListener("mousemove", e => { for (let i = 0; i < 3; i++) { particles.push({ x: Math.floor((e.clientX + (Math.random()-0.5)*10)/PIXEL)*PIXEL, y: Math.floor((e.clientY + (Math.random()-0.5)*10)/PIXEL)*PIXEL, alpha: 0.55+Math.random()*0.25, born: Date.now() }); } });
+ function trailLoop() { tCtx.clearRect(0,0,trailCanvas.width,trailCanvas.height); const now=Date.now(); particles=particles.filter(p=>now-p.born<500); particles.forEach(p=>{ const age=(now-p.born)/500; tCtx.fillStyle='rgba(120,159,176,'+(p.alpha*(1-age))+')'; tCtx.fillRect(p.x,p.y,PIXEL,PIXEL); }); requestAnimationFrame(trailLoop); }
+ trailLoop();
+</script>
+</body>
+</html>

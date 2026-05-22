@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CinderBlock / Charlie Mercer</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+ :root {
+  --primary: #789fb0;
+  --primary-light: #b8cdd6;
+  --primary-xlight: #e2eaed;
+  --primary-dark: #4d7a8e;
+  --primary-deep: #2e5a6a;
+  --ink: #1a1f24;
+  --ink-mid: #4a5460;
+  --ink-light: #8a97a4;
+  --cream: #f5f3ef;
+  --white: #fafaf8;
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ html { scroll-behavior: smooth; }
+ body {
+ background: var(--white);
+ color: var(--ink);
+ font-family: 'DM Mono', monospace;
+ font-weight: 300;
+ overflow-x: hidden;
+ }
+
+ /* NAV */
+ nav {
+ position: fixed;
+ top: 0; left: 0; right: 0;
+ z-index: 100;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 1.5rem 2.5rem;
+ background: rgba(250,250,248,0.88);
+ backdrop-filter: blur(14px);
+ border-bottom: 1px solid var(--primary-xlight);
+ }
+ .nav-logo {
+ font-family: 'Instrument Serif', serif;
+ font-size: 1.05rem;
+ color: var(--ink);
+ text-decoration: none;
+ }
+ .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+ .nav-links a {
+ font-size: 0.68rem;
+ letter-spacing: 0.14em;
+ text-transform: uppercase;
+ color: var(--ink-mid);
+ text-decoration: none;
+ transition: color 0.2s;
+ position: relative;
+ }
+ .nav-links a::after {
+ content: '';
+ position: absolute;
+ bottom: -2px; left: 0;
+ width: 0; height: 1px;
+ background: var(--primary);
+ transition: width 0.25s;
+ }
+ .nav-links a:hover { color: var(--ink); }
+ .nav-links a:hover::after { width: 100%; }
+
+ /* HERO - landscape stacked layout */
+ .project-hero {
+ padding-top: 5rem;
+ }
+ .hero-header {
+ padding: 3.5rem 2.5rem 2rem;
+ border-bottom: 1px solid var(--primary-xlight);
+ display: flex;
+ justify-content: space-between;
+ align-items: flex-end;
+ gap: 3rem;
+ }
+ .hero-header-left { flex: 1; }
+ .hero-header-right { flex-shrink: 0; }
+ .back-link {
+ display: inline-flex;
+ align-items: center;
+ gap: 0.5rem;
+ font-size: 0.65rem;
+ letter-spacing: 0.14em;
+ text-transform: uppercase;
+ color: var(--ink-light);
+ text-decoration: none;
+ margin-bottom: 1.5rem;
+ display: block;
+ transition: color 0.2s;
+ }
+ .back-link:hover { color: var(--primary); }
+ .project-index {
+ font-size: 0.63rem;
+ letter-spacing: 0.2em;
+ text-transform: uppercase;
+ color: var(--primary-dark);
+ margin-bottom: 0.75rem;
+ opacity: 0;
+ animation: fadeUp 0.8s 0.1s forwards;
+ }
+ .project-title {
+ font-family: 'Instrument Serif', serif;
+ font-size: clamp(3rem, 6vw, 6rem);
+ line-height: 0.92;
+ color: var(--ink);
+ margin-bottom: 0;
+ opacity: 0;
+ animation: fadeUp 0.9s 0.25s forwards;
+ }
+ .project-title em { font-style: italic; color: var(--primary); }
+ .project-tagline {
+ font-size: 0.8rem;
+ line-height: 1.85;
+ color: var(--ink-mid);
+ max-width: 340px;
+ opacity: 0;
+ animation: fadeUp 0.9s 0.32s forwards;
+ }
+ .project-meta-row {
+ display: grid;
+ grid-template-columns: repeat(4, 1fr);
+ gap: 1px;
+ background: var(--primary-xlight);
+ border: 1px solid var(--primary-xlight);
+ border-radius: 8px;
+ overflow: hidden;
+ opacity: 0;
+ animation: fadeUp 0.9s 0.4s forwards;
+ margin: 2rem 2.5rem 0;
+ }
+ .meta-item { background: var(--white); padding: 1rem 1.25rem; }
+ .meta-label {
+ font-size: 0.58rem;
+ letter-spacing: 0.16em;
+ text-transform: uppercase;
+ color: var(--ink-light);
+ margin-bottom: 0.3rem;
+ }
+ .meta-value {
+ font-size: 0.75rem;
+ color: var(--ink);
+ line-height: 1.4;
+ }
+
+ /* HERO IMAGE - wide landscape */
+ .hero-image {
+ width: 100%;
+ aspect-ratio: 21/9;
+ background: #c5d8e2;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ overflow: hidden;
+ margin-top: 2rem;
+ }
+ .hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+ .img-placeholder {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 1rem;
+ opacity: 0.4;
+ }
+ .img-placeholder span {
+ font-size: 0.62rem;
+ letter-spacing: 0.14em;
+ text-transform: uppercase;
+ color: var(--primary-deep);
+ }
+
+ /* CONTENT */
+ .project-content {
+ max-width: 780px;
+ margin: 0 auto;
+ padding: 6rem 2.5rem;
+ }
+
+ /* SECTION BLOCKS */
+ .content-block {
+ margin-bottom: 5rem;
+ opacity: 0;
+ transform: translateY(18px);
+ transition: opacity 0.7s ease, transform 0.7s ease;
+ }
+ .content-block.visible { opacity: 1; transform: none; }
+
+ .block-label {
+ font-size: 0.62rem;
+ letter-spacing: 0.2em;
+ text-transform: uppercase;
+ color: var(--primary-dark);
+ margin-bottom: 1.25rem;
+ padding-bottom: 0.6rem;
+ border-bottom: 1px solid var(--primary-xlight);
+ }
+ .block-title {
+ font-family: 'Instrument Serif', serif;
+ font-size: 2rem;
+ color: var(--ink);
+ margin-bottom: 1.25rem;
+ line-height: 1.15;
+ }
+ .block-title em { font-style: italic; color: var(--primary); }
+ .block-body {
+ font-size: 0.8rem;
+ line-height: 2;
+ color: var(--ink-mid);
+ }
+ .block-body p + p { margin-top: 1.2rem; }
+
+ /* IMAGE SLOTS */
+ .img-full {
+ width: 100%;
+ aspect-ratio: 16/9;
+ background: #c5d8e2;
+ border-radius: 6px;
+ margin: 3rem 0;
+ overflow: hidden;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ opacity: 0;
+ transform: translateY(18px);
+ transition: opacity 0.7s ease, transform 0.7s ease;
+ }
+ .img-full.visible { opacity: 1; transform: none; }
+ .img-full img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+ .img-grid {
+ display: grid;
+ gap: 1rem;
+ margin: 3rem 0;
+ opacity: 0;
+ transform: translateY(18px);
+ transition: opacity 0.7s ease, transform 0.7s ease;
+ }
+ .img-grid.visible { opacity: 1; transform: none; }
+ .img-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+ .img-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+ .img-slot {
+ aspect-ratio: 4/3;
+ background: #c5d8e2;
+ border-radius: 6px;
+ overflow: hidden;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ }
+ .img-slot.tall { aspect-ratio: 3/4; }
+ .img-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+ .img-slot .ph-inner { opacity: 0.3; text-align: center; }
+ .img-slot .ph-inner span {
+ display: block;
+ font-size: 0.58rem;
+ letter-spacing: 0.12em;
+ text-transform: uppercase;
+ color: var(--primary-deep);
+ margin-top: 0.5rem;
+ }
+
+ /* PULL QUOTE */
+ .pull-quote {
+ border-left: 2px solid var(--primary);
+ padding: 1.5rem 2rem;
+ margin: 3rem 0;
+ background: var(--primary-xlight);
+ border-radius: 0 6px 6px 0;
+ opacity: 0;
+ transform: translateY(18px);
+ transition: opacity 0.7s ease, transform 0.7s ease;
+ }
+ .pull-quote.visible { opacity: 1; transform: none; }
+ .pull-quote p {
+ font-family: 'Instrument Serif', serif;
+ font-size: 1.3rem;
+ line-height: 1.5;
+ color: var(--ink);
+ font-style: italic;
+ }
+
+ /* MATERIAL ROW */
+ .material-row {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 1px;
+ background: var(--primary-xlight);
+ border: 1px solid var(--primary-xlight);
+ border-radius: 8px;
+ overflow: hidden;
+ margin-top: 2rem;
+ }
+ .material-item { background: var(--white); padding: 1.25rem; }
+ .material-name {
+ font-family: 'Instrument Serif', serif;
+ font-size: 1.1rem;
+ color: var(--ink);
+ margin-bottom: 0.3rem;
+ }
+ .material-desc { font-size: 0.68rem; color: var(--ink-light); line-height: 1.6; }
+
+ /* NEXT PROJECT */
+ .next-project {
+ border-top: 1px solid var(--primary-xlight);
+ padding: 3rem 2.5rem;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ }
+ .next-label { font-size: 0.63rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 0.5rem; }
+ .next-title {
+ font-family: 'Instrument Serif', serif;
+ font-size: 1.6rem;
+ color: var(--ink);
+ text-decoration: none;
+ transition: color 0.2s;
+ }
+ .next-title:hover { color: var(--primary); }
+ .next-arrow { font-size: 2rem; color: var(--primary-light); transition: color 0.2s, transform 0.2s; }
+ .next-project:hover .next-arrow { color: var(--primary); transform: translateX(4px); }
+
+ /* FOOTER */
+ footer {
+ padding: 1.75rem 2.5rem;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ border-top: 1px solid var(--primary-xlight);
+ }
+ .footer-name { font-family: 'Instrument Serif', serif; font-size: 0.9rem; color: var(--ink); }
+ .footer-copy { font-size: 0.62rem; letter-spacing: 0.1em; color: var(--ink-light); text-transform: uppercase; }
+
+ @keyframes fadeUp {
+ from { opacity: 0; transform: translateY(18px); }
+ to { opacity: 1; transform: translateY(0); }
+ }
+</style>
+</head>
+<body>
+<canvas id="trail-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:9990;image-rendering:pixelated;"></canvas>
+
+<nav>
+ <a href="../index.html" class="nav-logo">Charlie Mercer</a>
+ <ul class="nav-links">
+ <li><a href="../index.html#projects">Projects</a></li>
+ <li><a href="../index.html#about">About</a></li>
+ <li><a href="../index.html#contact">Contact</a></li>
+ <li><a href="../resume.html">Resume</a></li>
+ </ul>
+</nav>
+
+<section class="project-hero">
+ <div class="hero-header">
+ <div class="hero-header-left">
+ <a href="../index.html" class="back-link">← All Projects</a>
+ <p class="project-index">01 / Industrial Design</p>
+ <h1 class="project-title">Cinder<em>Block</em></h1>
+ </div>
+ <div class="hero-header-right">
+ <p class="project-tagline">A match holder, striker, and disposal system designed to sit on your desk or coffee table. I wanted lighting a match to feel considered rather than frustrating.</p>
+ </div>
+ </div>
+ <div class="project-meta-row">
+ <div class="meta-item">
+ <div class="meta-label">Year</div>
+ <div class="meta-value">Fall 2025</div>
+ </div>
+ <div class="meta-item">
+ <div class="meta-label">Duration</div>
+ <div class="meta-value">10 Weeks</div>
+ </div>
+ <div class="meta-item">
+ <div class="meta-label">Context</div>
+ <div class="meta-value">Homegoods Studio</div>
+ </div>
+ <div class="meta-item">
+ <div class="meta-label">Materials</div>
+ <div class="meta-value">Aluminum, Concrete, Felt</div>
+ </div>
+ </div>
+ <div class="hero-image">
+ <!-- Replace with: <img src="../images/cinderblock-hero.jpg" alt="CinderBlock"> -->
+ <div class="img-placeholder">
+ <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+ <rect x="16" y="28" width="32" height="22" rx="2" stroke="#2e5a6a" stroke-width="1.5"/>
+ <path d="M22 28V20a10 10 0 0120 0v8" stroke="#2e5a6a" stroke-width="1.5" stroke-linecap="round"/>
+ <circle cx="32" cy="38" r="3" fill="#2e5a6a"/>
+ </svg>
+ <span>Hero image</span>
+ </div>
+ </div>
+</section>
+
+<div class="project-content">
+
+ <!-- OVERVIEW -->
+ <div class="content-block">
+ <p class="block-label">Overview</p>
+ <div class="block-body">
+ <p>This project came out of a 10 week homegoods studio class. The brief was simply to design a homegood. I became interested in the match as an object because using a traditional matchbox is actually pretty frustrating the tray slides out unexpectedly, the striking surface is hard to find, and there is nowhere to put a spent match. The design question I kept coming back to was: how can I maximize friction within the product to minimize friction between the product and the user?</p>
+ <p>CinderBlock handles the whole process in one object. The aluminum lid has a striking valley that guides your hand naturally. Spent matches drop through a discard hole into the concrete base, which also holds a match storage tray. The two parts lift apart cleanly and the concrete base has felt feet at the bottom.</p>
+ </div>
+ </div>
+
+ <!-- HERO IMAGE FULL -->
+ <div class="img-full">
+ <!-- Replace with: <img src="../images/cinderblock-matches.jpg" alt="CinderBlock surrounded by matches"> -->
+ <div class="img-placeholder">
+ <svg width="48" height="48" viewBox="0 0 64 64" fill="none" opacity="0.4">
+ <rect x="8" y="8" width="48" height="48" rx="3" stroke="#2e5a6a" stroke-width="1.5"/>
+ <circle cx="24" cy="24" r="6" stroke="#2e5a6a" stroke-width="1.5"/>
+ <path d="M8 40l14-10 10 8 8-6 16 14" stroke="#2e5a6a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+ </svg>
+ <span style="font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:#4d7a8e;margin-top:0.5rem;">Hero image</span>
+ </div>
+ </div>
+
+ <!-- PROCESS -->
+ <div class="content-block">
+ <p class="block-label">Process and Manufacturing</p>
+ <div class="block-body">
+ <p>With only 10 weeks, manufacturing had to be considered from day one. Lead time on the CNC machining and concrete casting meant committing to the form early. The concrete base went through four mold iterations clay, then silicone, then two versions of 3D printed before I got a version that released cleanly and held the tray geometry correctly.</p>
+ <p>I simplified the aluminum profile to reduce the number of machining operations and keep costs realistic. The striking valley is the one feature I kept pushing on because it is the whole functional logic of the object. Getting the angle right so it actually guides the match took a lot of physical testing before committing to a final dimension.</p>
+ </div>
+ </div>
+
+ <!-- PROCESS IMAGES 2-UP -->
+ <div class="img-grid cols-2">
+ <div class="img-slot">
+ <!-- Replace with: <img src="../images/cinderblock-molds.jpg" alt="Four concrete mold iterations"> -->
+ <div class="ph-inner"><svg width="36" height="36" viewBox="0 0 64 64" fill="none"><rect x="8" y="20" width="12" height="24" rx="1" stroke="#2e5a6a" stroke-width="1.5"/><rect x="24" y="20" width="12" height="24" rx="1" stroke="#2e5a6a" stroke-width="1.5"/><rect x="40" y="20" width="12" height="24" rx="1" stroke="#2e5a6a" stroke-width="1.5"/></svg><span>Mold iterations</span></div>
+ </div>
+ <div class="img-slot">
+ <!-- Replace with: <img src="../images/cinderblock-making.jpg" alt="Casting and assembly in progress"> -->
+ <div class="ph-inner"><svg width="36" height="36" viewBox="0 0 64 64" fill="none"><rect x="16" y="20" width="32" height="28" rx="2" stroke="#2e5a6a" stroke-width="1.5"/><path d="M16 28h32" stroke="#2e5a6a" stroke-width="1.5"/></svg><span>In progress</span></div>
+ </div>
+ </div>
+
+ <!-- MATERIALS -->
+ <div class="content-block">
+ <p class="block-label">Components</p>
+ <div class="material-row">
+ <div class="material-item">
+ <div class="material-name">Aluminum lid</div>
+ <div class="material-desc">CNC-machined with striking valley and discard hole. Profile simplified to reduce machining operations.</div>
+ </div>
+ <div class="material-item">
+ <div class="material-name">Concrete base</div>
+ <div class="material-desc">Molded base with storage tray and discard tray. Four mold iterations to get the geometry right.</div>
+ </div>
+ <div class="material-item">
+ <div class="material-name">Felt feet</div>
+ <div class="material-desc">Adhered to the base. Protects surfaces and keeps the object from moving when striking.</div>
+ </div>
+ </div>
+ </div>
+
+ <!-- FINAL IMAGES -->
+ <div class="img-grid cols-2">
+ <div class="img-slot">
+ <!-- Replace with: <img src="../images/cinderblock-components.jpg" alt="CinderBlock components exploded"> -->
+ <div class="ph-inner"><svg width="36" height="36" viewBox="0 0 64 64" fill="none"><rect x="16" y="12" width="32" height="18" rx="2" stroke="#2e5a6a" stroke-width="1.5"/><rect x="16" y="34" width="32" height="18" rx="2" stroke="#2e5a6a" stroke-width="1.5"/></svg><span>Components</span></div>
+ </div>
+ <div class="img-slot">
+ <!-- Replace with: <img src="../images/cinderblock-strike.jpg" alt="Match being struck on CinderBlock"> -->
+ <div class="ph-inner"><svg width="36" height="36" viewBox="0 0 64 64" fill="none"><rect x="16" y="12" width="32" height="40" rx="3" stroke="#2e5a6a" stroke-width="1.5"/><path d="M32 12 Q36 20 32 24 Q28 28 32 36" stroke="#2e5a6a" stroke-width="1.5" stroke-linecap="round"/></svg><span>In use</span></div>
+ </div>
+ </div>
+
+</div>
+
+<!-- NEXT PROJECT -->
+<a href="apparel.html" class="next-project">
+ <div>
+ <div class="next-label">Next Project</div>
+ <div class="next-title">Apparel Collection →</div>
+ </div>
+ <span class="next-arrow">→</span>
+</a>
+
+<footer>
+ <span class="footer-name">Charlie Mercer</span>
+ <span class="footer-copy">© 2025 All rights reserved</span>
+</footer>
+
+<script>
+ const obs = new IntersectionObserver(entries => {
+ entries.forEach(e => {
+ if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+ });
+ }, { threshold: 0.08 });
+ document.querySelectorAll('.content-block, .img-full, .img-grid, .pull-quote').forEach(el => obs.observe(el));
+ // PIXEL TRAIL
+ const trailCanvas = document.getElementById("trail-canvas");
+ const tCtx = trailCanvas.getContext("2d");
+ const PIXEL = 5;
+ let particles = [];
+ function resizeTrail() { trailCanvas.width = window.innerWidth; trailCanvas.height = window.innerHeight; }
+ resizeTrail();
+ window.addEventListener("resize", resizeTrail);
+ document.addEventListener("mousemove", e => { for (let i = 0; i < 3; i++) { particles.push({ x: Math.floor((e.clientX + (Math.random()-0.5)*10)/PIXEL)*PIXEL, y: Math.floor((e.clientY + (Math.random()-0.5)*10)/PIXEL)*PIXEL, alpha: 0.55+Math.random()*0.25, born: Date.now() }); } });
+ function trailLoop() { tCtx.clearRect(0,0,trailCanvas.width,trailCanvas.height); const now=Date.now(); particles=particles.filter(p=>now-p.born<500); particles.forEach(p=>{ const age=(now-p.born)/500; tCtx.fillStyle='rgba(120,159,176,'+(p.alpha*(1-age))+')'; tCtx.fillRect(p.x,p.y,PIXEL,PIXEL); }); requestAnimationFrame(trailLoop); }
+ trailLoop();
+</script>
+</body>
+</html>
