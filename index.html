@@ -90,13 +90,11 @@
  transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), border-color 0.3s;
  }
  .project-card:hover { transform: translateY(-5px); border-color: var(--primary-light); }
- .project-card:hover .card-img { transform: scale(1.04); }
  .project-card:hover .card-arrow { transform: translate(3px,-3px); opacity: 1; }
 
  .card-img {
  width: 100%;
  aspect-ratio: 4/3;
- transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
  display: flex;
  align-items: center;
  justify-content: center;
@@ -394,7 +392,7 @@
 
  <a class="project-card reveal" href="projects/cinderblock.html">
  <div class="card-img bg-1">
- <img src="images/cinderblock-card.jpg" alt="CinderBlock">
+ <img src="images/cinderblock-card.jpg" alt="CinderBlock" style="object-position: center top;">
  </div>
  <div class="card-body">
  <p class="card-meta">Fall 2025 — Industrial Design</p>
