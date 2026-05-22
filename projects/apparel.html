@@ -92,9 +92,48 @@
  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
  .reveal.visible { opacity: 1; transform: none; }
+
+  /* LIGHTBOX */
+  .lightbox-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(250,250,248,0.15); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    z-index: 9999;
+    cursor: zoom-out;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .lightbox-overlay.active { display: flex; }
+  .lightbox-overlay img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 4px;
+    cursor: default;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: var(--ink-mid);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: "DM Mono", monospace;
+    cursor: pointer;
+  }
+  .img-slot img, .img-full img, .hero-image img {
+    cursor: zoom-in;
+  }
 </style>
 </head>
 <body>
+<div class="lightbox-overlay" id="lightbox">
+  <span class="lightbox-close">Close</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
 <canvas id="trail-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:9990;image-rendering:pixelated;"></canvas>
 
 <nav>
@@ -184,23 +223,6 @@
  </div>
  </div>
 
- <div class="content-block">
- <p class="block-label">Process</p>
- <div class="block-body">
- <p>I did all the pattern making myself, which is where most of the design decisions happen for me. Getting the silhouette right on paper before cutting into fabric saves a lot of material. I sew on industrial machines, which makes a real difference in seam quality and how fast you can work.</p>
- <p>The magnetic pocket on the Trestle jacket was the most technically interesting part of the collection. Getting the magnets to sit flush inside the denim without creating a visible bump took a few tries. The attraction strength also had to be calibrated so the pocket felt satisfying to close but was not difficult to open one-handed.</p>
- </div>
- </div>
-
- <div class="img-grid cols-2">
- <div class="img-slot">
- <img src="../images/fuhe-process-1.jpg" alt="Pattern making">
- </div>
- <div class="img-slot">
- <img src="../images/fuhe-process-2.jpg" alt="Sewing">
- </div>
- </div>
-
 </div>
 
 <a href="fabric-gauge.html" class="next-project">
@@ -232,6 +254,20 @@
  document.addEventListener("mousemove", e => { for (let i = 0; i < 3; i++) { particles.push({ x: Math.floor((e.clientX + (Math.random()-0.5)*10)/PIXEL)*PIXEL, y: Math.floor((e.clientY + (Math.random()-0.5)*10)/PIXEL)*PIXEL, alpha: 0.55+Math.random()*0.25, born: Date.now() }); } });
  function trailLoop() { tCtx.clearRect(0,0,trailCanvas.width,trailCanvas.height); const now=Date.now(); particles=particles.filter(p=>now-p.born<500); particles.forEach(p=>{ const age=(now-p.born)/500; tCtx.fillStyle='rgba(120,159,176,'+(p.alpha*(1-age))+')'; tCtx.fillRect(p.x,p.y,PIXEL,PIXEL); }); requestAnimationFrame(trailLoop); }
  trailLoop();
+  // LIGHTBOX
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+  document.querySelectorAll(".img-slot img, .img-full img, .hero-image img").forEach(img => {
+    img.addEventListener("click", e => {
+      e.stopPropagation();
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add("active");
+    });
+  });
+  lightbox.addEventListener("click", () => lightbox.classList.remove("active"));
+  document.querySelector(".lightbox-close").addEventListener("click", () => lightbox.classList.remove("active"));
+  document.addEventListener("keydown", e => { if (e.key === "Escape") lightbox.classList.remove("active"); });
 </script>
 </body>
 </html>

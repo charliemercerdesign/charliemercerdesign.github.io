@@ -342,9 +342,48 @@
  from { opacity: 0; transform: translateY(18px); }
  to { opacity: 1; transform: translateY(0); }
  }
+
+  /* LIGHTBOX */
+  .lightbox-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(250,250,248,0.15); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    z-index: 9999;
+    cursor: zoom-out;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .lightbox-overlay.active { display: flex; }
+  .lightbox-overlay img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 4px;
+    cursor: default;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: var(--ink-mid);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: "DM Mono", monospace;
+    cursor: pointer;
+  }
+  .img-slot img, .img-full img, .hero-image img {
+    cursor: zoom-in;
+  }
 </style>
 </head>
 <body>
+<div class="lightbox-overlay" id="lightbox">
+  <span class="lightbox-close">Close</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
 <canvas id="trail-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:9990;image-rendering:pixelated;"></canvas>
 
 <nav>
@@ -387,7 +426,7 @@
  </div>
  </div>
  <div class="hero-image">
- <img src="../images/cinderblock-hero.jpg" alt="CinderBlock" style="object-position: center bottom;">
+ <img src="../images/cinderblock-hero.jpg" alt="CinderBlock" style="object-position: center 80%;">
  </div>
 </section>
 
@@ -411,7 +450,7 @@
  <div class="content-block">
  <p class="block-label">Process and Manufacturing</p>
  <div class="block-body">
- <p>With only 10 weeks, manufacturing had to be considered from day one. Lead time on the CNC machining and concrete casting meant committing to the form early. The concrete base went through four mold iterations clay, then silicone, then two versions of 3D printed before I got a version that released cleanly and held the tray geometry correctly.</p>
+ <p>With only 10 weeks, manufacturing had to be considered from day one. Lead time on the CNC machining and concrete casting meant committing to the form early. The concrete base went through multiple 3D printed mold iterations, each with different print settings and dimensions, before I got a version that released cleanly and held the tray geometry correctly.</p>
  <p>I simplified the aluminum profile to reduce the number of machining operations and keep costs realistic. The striking valley is the one feature I kept pushing on because it is the whole functional logic of the object. Getting the angle right so it actually guides the match took a lot of physical testing before committing to a final dimension.</p>
  </div>
  </div>
@@ -436,7 +475,7 @@
  </div>
  <div class="material-item">
  <div class="material-name">Concrete base</div>
- <div class="material-desc">Molded base with storage tray and discard tray. Four mold iterations to get the geometry right.</div>
+ <div class="material-desc">Molded base with storage tray and discard tray. Multiple 3D printed mold iterations to get the geometry right.</div>
  </div>
  <div class="material-item">
  <div class="material-name">Felt feet</div>
@@ -448,7 +487,7 @@
  <!-- FINAL IMAGES -->
  <div class="img-grid cols-2">
  <div class="img-slot">
- <img src="../images/cinderblock-components.jpg" alt="CinderBlock components" style="object-position: right center;">
+ <img src="../images/cinderblock-components.jpg" alt="CinderBlock components" style="object-position: 85% center;">
  </div>
  <div class="img-slot">
  <img src="../images/cinderblock-strike.jpg" alt="Match being struck">
@@ -489,6 +528,20 @@
  document.addEventListener("mousemove", e => { for (let i = 0; i < 3; i++) { particles.push({ x: Math.floor((e.clientX + (Math.random()-0.5)*10)/PIXEL)*PIXEL, y: Math.floor((e.clientY + (Math.random()-0.5)*10)/PIXEL)*PIXEL, alpha: 0.55+Math.random()*0.25, born: Date.now() }); } });
  function trailLoop() { tCtx.clearRect(0,0,trailCanvas.width,trailCanvas.height); const now=Date.now(); particles=particles.filter(p=>now-p.born<500); particles.forEach(p=>{ const age=(now-p.born)/500; tCtx.fillStyle='rgba(120,159,176,'+(p.alpha*(1-age))+')'; tCtx.fillRect(p.x,p.y,PIXEL,PIXEL); }); requestAnimationFrame(trailLoop); }
  trailLoop();
+  // LIGHTBOX
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+  document.querySelectorAll(".img-slot img, .img-full img, .hero-image img").forEach(img => {
+    img.addEventListener("click", e => {
+      e.stopPropagation();
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add("active");
+    });
+  });
+  lightbox.addEventListener("click", () => lightbox.classList.remove("active"));
+  document.querySelector(".lightbox-close").addEventListener("click", () => lightbox.classList.remove("active"));
+  document.addEventListener("keydown", e => { if (e.key === "Escape") lightbox.classList.remove("active"); });
 </script>
 </body>
 </html>
